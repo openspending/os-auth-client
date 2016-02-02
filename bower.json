@@ -1,0 +1,30 @@
+{
+  "name": "os-auth-client",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "Adam Kariv",
+      "email": "adam@okfn.org"
+    }
+  ],
+  "main": [
+    "dist/auth-client.js"
+  ],
+  "ignore": [
+    "src",
+    "test",
+    "gulpfile.js",
+    "karma-*.conf.js",
+    "**/.*"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0",
+    "angular-scenario": ">=1.2.0",
+    "angular": "=1.4.9",
+    "angular-resource": ">=1.2.0",
+    "angular-cookies": ">=1.2.0",
+    "ngstorage": "~0.3.10"
+  }
+}
