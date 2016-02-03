@@ -2,7 +2,9 @@
   "name": "os-auth-client",
   "version": "0.1.1",
   "author": "Adam Kariv <adam@okfn.org>",
-  "dependencies": {},
+  "dependencies": {
+    "ngstorage": "^0.3.10"
+  },
   "devDependencies": {
     "chai": "^1.9.1",
     "chai-jquery": "^1.2.3",
