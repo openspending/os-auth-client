@@ -15,9 +15,7 @@
   angular.module('authClient',
       [
           'authClient.config',
-          'authClient.services',
-          'ngResource',
-          'ngCookies'
+          'authClient.services'
       ]);
 
 })(angular);

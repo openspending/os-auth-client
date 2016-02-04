@@ -29,7 +29,7 @@ describe('authenticate', function() {
         }
         if ( params && params.jwt === 'auth-ok' ) {
           console.log('200 AUTH OK');
-          return [200, {authenticated: true}];
+          return [200, {authenticated: true, profile: {name:'mo', email:'mo@mo.com', avatar:'1234'}}];
         } else {
           console.log('200 AUTH ERR');
           return [200, {authenticated: false, providers: {google: 'http://google-url'}}];
@@ -66,13 +66,15 @@ describe('authenticate', function() {
     $httpBackend.flush();
   });
 
-  it('should return the jwt from the URL', function() {
+  it('should return the jwt and profile from the URL', function() {
     $location.search({jwt:'auth-ok'});
     $browser.poll();
     $httpBackend.expectGET(baseUrl.getBaseUrl()+'/oauth/check?jwt=auth-ok&next=next-url');
     var resp = authenticate.check('next-url');
-    resp.then(function(jwt) {
-      expect(jwt).to.equal('auth-ok');
+    resp.then(function(value) {
+      expect(value.token).to.equal('auth-ok');
+      expect(value.profile).to.be.ok;
+      expect(value.profile.name).to.equal('mo');
       expect($localStorage.jwt).to.equal('auth-ok');
     });
     $httpBackend.flush();

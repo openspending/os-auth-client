@@ -27,7 +27,7 @@ angular.module('authClient.services')
             .then(function(response) {
               var data = response.data;
               if ( data.authenticated ) {
-                resolve(jwt);
+                resolve({token:jwt, profile:data.profile});
               } else {
                 reject(data.providers);
               }
