@@ -15,16 +15,14 @@
   angular.module('authClient',
       [
           'authClient.config',
-          'authClient.services',
-          'ngResource',
-          'ngCookies'
+          'authClient.services'
       ]);
 
 })(angular);
 
 angular.module('authClient.services')
   .service('authenticate',
-    function($localStorage, $http, $location, $q, baseUrl) {
+    function($localStorage, $http, $location, $q, $window, baseUrl) {
 
       var that = this;
 
@@ -41,7 +39,10 @@ angular.module('authClient.services')
               $localStorage.jwt = jwt;
             }
           }
-          var config = {params:{next:next}};
+          var config = {
+              params:{next:next},
+              withCredentials: false
+          };
           jwt = that.getToken();
           if ( jwt ) {
             config.params.jwt = jwt;
@@ -51,12 +52,17 @@ angular.module('authClient.services')
             .then(function(response) {
               var data = response.data;
               if ( data.authenticated ) {
-                resolve(jwt);
+                resolve({token:jwt, profile:data.profile});
               } else {
+                delete $localStorage.jwt;
                 reject(data.providers);
               }
           });
         });
+      };
+
+      this.login = function(url, target) {
+        $window.open( url,  target );
       };
     });
 
@@ -67,7 +73,10 @@ angular.module('authClient.services')
 
       this.check = function(token, service) {
         return $q(function(resolve, reject) {
-          var config = {params:{jwt:token, service:service}};
+          var config = {
+            params: {jwt:token, service:service},
+            withCredentials: false
+          };
           $http
             .get(baseUrl.getBaseUrl()+'/permit/check', config)
             .then(function(response) {

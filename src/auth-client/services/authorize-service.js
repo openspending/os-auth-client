@@ -4,7 +4,10 @@ angular.module('authClient.services')
 
       this.check = function(token, service) {
         return $q(function(resolve, reject) {
-          var config = {params:{jwt:token, service:service}};
+          var config = {
+            params: {jwt:token, service:service},
+            withCredentials: false
+          };
           $http
             .get(baseUrl.getBaseUrl()+'/permit/check', config)
             .then(function(response) {

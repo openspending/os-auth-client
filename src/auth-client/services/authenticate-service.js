@@ -1,6 +1,6 @@
 angular.module('authClient.services')
   .service('authenticate',
-    function($localStorage, $http, $location, $q, baseUrl) {
+    function($localStorage, $http, $location, $q, $window, baseUrl) {
 
       var that = this;
 
@@ -17,7 +17,10 @@ angular.module('authClient.services')
               $localStorage.jwt = jwt;
             }
           }
-          var config = {params:{next:next}};
+          var config = {
+              params:{next:next},
+              withCredentials: false
+          };
           jwt = that.getToken();
           if ( jwt ) {
             config.params.jwt = jwt;
@@ -29,10 +32,15 @@ angular.module('authClient.services')
               if ( data.authenticated ) {
                 resolve({token:jwt, profile:data.profile});
               } else {
+                delete $localStorage.jwt;
                 reject(data.providers);
               }
           });
         });
+      };
+
+      this.login = function(url, target) {
+        $window.open( url,  target );
       };
     });
 
