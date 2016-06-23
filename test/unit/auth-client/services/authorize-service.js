@@ -10,7 +10,7 @@ describe('authorize', function() {
     $httpBackend = $injector.get('$httpBackend');
     // backend definition common for all tests
     authRequestHandler = $httpBackend.when('GET', function(url) {
-      var pattern = baseUrl.getBaseUrl()+'/permit/check';
+      var pattern = baseUrl.getBaseUrl()+'/user/authorize';
       return url.substr(0, pattern.length) === pattern;
     }).respond(function(method, url, data, headers, params) {
         console.log('GET',url);
@@ -57,13 +57,13 @@ describe('authorize', function() {
   });
 
   it('should call the API with check', function() {
-    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/permit/check?jwt=auth-ok&service=test-service');
+    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/user/authorize?jwt=auth-ok&service=test-service');
     authorize.check('auth-ok','test-service');
     $httpBackend.flush();
   });
 
   it('should return permissions and token when authorized', function() {
-    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/permit/check?jwt=auth-ok&service=test-service');
+    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/user/authorize?jwt=auth-ok&service=test-service');
     var resp = authorize.check('auth-ok','test-service');
     resp.then(function(ret) {
       expect(ret.permissions.access).to.equal(true);
@@ -73,7 +73,7 @@ describe('authorize', function() {
   });
 
   it('bad-auth should return unauthenticated', function() {
-    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/permit/check?jwt=auth-bad&service=test-service');
+    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/user/authorize?jwt=auth-bad&service=test-service');
     var resp = authorize.check('auth-bad','test-service');
     resp.then(null, function(resp) {
       expect(resp).to.exist;

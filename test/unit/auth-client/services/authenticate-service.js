@@ -10,7 +10,7 @@ describe('authenticate', function() {
     $httpBackend = $injector.get('$httpBackend');
     // backend definition common for all tests
     authRequestHandler = $httpBackend.when('GET', function(url) {
-      var pattern = baseUrl.getBaseUrl()+'/oauth/check';
+      var pattern = baseUrl.getBaseUrl()+'/user/check';
       return url.substr(0, pattern.length) === pattern;
     }).respond(function(method, url, data, headers, params) {
         console.log('GET',url);
@@ -61,7 +61,7 @@ describe('authenticate', function() {
   });
 
   it('should call the API with check', function() {
-    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/oauth/check?next=next-url');
+    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/user/check?next=next-url');
     authenticate.check('next-url');
     $httpBackend.flush();
   });
@@ -69,7 +69,7 @@ describe('authenticate', function() {
   it('should return the jwt and profile from the URL', function() {
     $location.search({jwt:'auth-ok'});
     $browser.poll();
-    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/oauth/check?jwt=auth-ok&next=next-url');
+    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/user/check?jwt=auth-ok&next=next-url');
     var resp = authenticate.check('next-url');
     resp.then(function(value) {
       expect(value.token).to.equal('auth-ok');
@@ -83,7 +83,7 @@ describe('authenticate', function() {
   it('bad-auth should return unauthenticated', function() {
     $location.search({jwt:'auth-bad'});
     $browser.poll();
-    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/oauth/check?jwt=auth-bad&next=next-url');
+    $httpBackend.expectGET(baseUrl.getBaseUrl()+'/user/check?jwt=auth-bad&next=next-url');
     var resp = authenticate.check('next-url');
     resp.then(null, function(providers) {
       expect(providers).to.exist;

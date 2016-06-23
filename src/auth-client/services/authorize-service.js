@@ -1,5 +1,5 @@
 angular.module('authClient.services')
-  .service('authorize',
+  .service('authorize', ['$http', '$q', 'baseUrl',
     function($http, $q, baseUrl) {
 
       this.check = function(token, service) {
@@ -9,7 +9,7 @@ angular.module('authClient.services')
             withCredentials: false
           };
           $http
-            .get(baseUrl.getBaseUrl()+'/permit/check', config)
+            .get(baseUrl.getBaseUrl()+'/user/authorize', config)
             .then(function(response) {
               var data = response.data;
               resolve(data);
@@ -18,5 +18,5 @@ angular.module('authClient.services')
             });
         });
       };
-    });
+    }]);
 

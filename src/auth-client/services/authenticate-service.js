@@ -1,5 +1,5 @@
 angular.module('authClient.services')
-  .service('authenticate',
+  .service('authenticate', ['$localStorage', '$http', '$location', '$q', '$window', 'baseUrl',
     function($localStorage, $http, $location, $q, $window, baseUrl) {
 
       var that = this;
@@ -26,7 +26,7 @@ angular.module('authClient.services')
             config.params.jwt = jwt;
           }
           $http
-            .get(baseUrl.getBaseUrl()+'/oauth/check', config)
+            .get(baseUrl.getBaseUrl()+'/user/check', config)
             .then(function(response) {
               var data = response.data;
               if ( data.authenticated ) {
@@ -42,5 +42,12 @@ angular.module('authClient.services')
       this.login = function(url, target) {
         $window.open( url,  target );
       };
-    });
+
+      this.logout = function() {
+        if ( that.getToken() ) {
+          delete $localStorage.jwt;
+          $location.search('jwt',null);
+        }
+      };
+    }]);
 

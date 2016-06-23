@@ -27,13 +27,19 @@ var sourceFiles = [
   path.join(sourceDirectory, '/**/*.module.js'),
 
   // Then add all JavaScript files
-  path.join(sourceDirectory, '/**/*.js')
+  path.join(sourceDirectory, '/**/*.js'),
+
 ];
 
 var lintFiles = [
   'gulpfile.js',
   // Karma configuration
   'karma-*.conf.js'
+].concat(sourceFiles);
+
+sourceFiles = [
+  // Dependency
+  'bower/ngstorage/ngStorage.js'
 ].concat(sourceFiles);
 
 gulp.task('build', function() {

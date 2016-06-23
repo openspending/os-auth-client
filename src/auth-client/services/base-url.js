@@ -1,6 +1,6 @@
 angular.module('authClient.services')
   .service('baseUrl', function() {
-    var _baseUrl = 'http://s145.okserver.org';
+    var _baseUrl = 'http://next.openspending.org';
 
     this.setBaseUrl = function(baseUrl) {
       _baseUrl = baseUrl;
