@@ -1,6 +1,6 @@
 {
   "name": "os-auth-client",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Adam Kariv <adam@okfn.org>",
   "dependencies": {
     "ngstorage": "^0.3.10"
