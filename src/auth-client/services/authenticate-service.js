@@ -19,7 +19,7 @@ angular.module('authClient.services')
           }
           var config = {
               params:{next:next},
-              withCredentials: false
+              withCredentials: true
           };
           jwt = that.getToken();
           if ( jwt ) {
