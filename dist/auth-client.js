@@ -337,7 +337,7 @@ angular.module('authClient.services')
 
 angular.module('authClient.services')
   .service('baseUrl', function() {
-    var _baseUrl = 'https://next.openspending.org';
+    var _baseUrl = 'https://openspending.org';
 
     this.setBaseUrl = function(baseUrl) {
       _baseUrl = baseUrl;
